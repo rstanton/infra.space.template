@@ -1,0 +1,57 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+        <param name="plugin-icon">images/pluginIcon.png</param>
+        <param name="plugin-logo">images/pluginLogo.png</param>
+    </plugin-info>
+
+    <!-- add our i18n resource -->
+    <resource type="i18n" name="i18n" location="infra.space.template"/>
+
+	
+	<content-template key="HLID" i18n-name-key="kits.template.hlid">
+		<resource name="template" type="download" location="xml/hlid.xml"/>
+	</content-template>
+	<content-template key="APPS" i18n-name-key="kits.template.apps">
+		<resource name="template" type="download" location="xml/apps.xml"/>
+	</content-template>
+	<content-template key="SERVICES" i18n-name-key="kits.template.services">
+		<resource name="template" type="download" location="xml/services.xml"/>
+	</content-template>
+    
+	<web-item key="blueprint-item" i18n-name-key="my.plugin.title" section="system.create.dialog/content">
+	    <description key="my.plugin.description"/>
+	    <resource name="icon" type="download" location="images/my-blueprint-icon.png"/>
+	    <param name="blueprintKey" value="myplugin-blueprint"/>
+	</web-item>
+	 
+	<blueprint key="myplugin-blueprint" index-key="myplugin-index">
+	   <content-template ref="HLID"/>
+	</blueprint>
+
+	<!-- Oh yes, space blueprint -->
+    <web-item key="hello-space-blueprint-item" i18n-name-key="confluence.hello.space.blueprint.name" section="system.create.space.dialog/content">
+        <description key="confluence.hello.space.blueprint.description"/>
+        <resource name="icon" type="download" location="com/atlassian/confluence/plugins/hello_blueprint/images/preview.png"/>
+        <param name="blueprintKey" value="my-space-blueprint"/>
+    </web-item>
+
+    <space-blueprint key="my-space-blueprint" i18n-name-key="confluence.hello.space.blueprint.name">
+        <content-template ref="SERVICES">
+            <content-template ref="APPS">
+	            <content-template ref="HLID"/>
+	   </content-template>
+        </content-template>
+	<dialog-wizard key="my-space-blueprint-wizard">
+            <dialog-page id="spaceBasicDetailsId"
+                         template-key="Confluence.Templates.Blueprints.CreateSpace.createSpaceForm"
+                         title-key="confluence.hello.blueprint.dialog.choose.title"
+                         description-header-key="confluence.hello.blueprint.dialog.choose.heading"
+                         description-content-key="confluence.hello.blueprint.dialog.choose.description"
+			last="true"/>
+        </dialog-wizard>
+    </space-blueprint>
+    
+</atlassian-plugin>
